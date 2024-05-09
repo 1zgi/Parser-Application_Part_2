@@ -86,7 +86,7 @@ def T():
     global error
     if error:
         return None
-    print(" T -> F S")
+    print("T -> F S")
     temp = F()
     return S(temp)
 
