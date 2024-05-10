@@ -7,19 +7,20 @@ class Node:
 
 error = False
 next_token = '%'
+input_stream = []
 
 
 def lex():
     global next_token
-    with open("input.txt", "r") as file:
-        while True:
-            next_char = file.read(1)
-            if not next_char:
-                next_token = '$'
-                break
-            if next_char.strip():
-                next_token = next_char
-                break
+    global input_stream
+
+    while input_stream and input_stream[0].isspace():
+        input_stream.pop(0)
+
+    if input_stream:
+        next_token = input_stream.pop(0)
+    else:
+        next_token = '$'
 
 
 def unconsumed_input():
@@ -28,14 +29,17 @@ def unconsumed_input():
 
 
 def main():
-    global error, next_token
-    theTree = G()
+    global error, next_token, input_stream
+    with open("input.txt", "r") as file:
+        input_stream = list(file.read())
+
+    the_tree = G()
     if not error:
-        printTree(theTree)
-        value = evaluate(theTree)
+        printTree(the_tree)
+        value = evaluate(the_tree)
         print("The value is", value)
     else:
-        print("input not parsed correctly")
+        print("Input not parsed correctly")
 
 
 def G():
